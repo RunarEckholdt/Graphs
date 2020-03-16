@@ -10,5 +10,10 @@ int main()
     graph->addEdge(3, 2);
     graph->addEdge(3, 6);
     graph->addEdge(6, 4);
+    graph->addEdge(7, 8);
+    graph->addEdge(7, 9);
     graph->print();
+
+    cout<<endl << graph->bfSearch(0,8)<<endl;
+
 }
