@@ -1,6 +1,11 @@
-
+#pragma once
+#ifndef _NODE
+#define _NODE
 #include "Edge.h"
 //#include "..\..\std_lib_facilities.h"
+template <typename T>
+class Edge;
+
 template <typename T>
 class Node
 {
@@ -10,10 +15,12 @@ class Node
 public:
 	Node(T val);
 	~Node();
+	T getValue();
 	void addEdge(Edge<T>*);
 	void removeEdge(Edge<T>*);
 	int amountOfEdges();
 	Edge<T>* edgeAtIndex(int index);
+	void printValue();
 };
 
 template<typename T>
@@ -25,6 +32,12 @@ inline Node<T>::~Node(){
 	for (Edge<T>* edge : edges) {
 		delete edge;
 	}
+}
+
+template<typename T>
+inline T Node<T>::getValue()
+{
+	return val;
 }
 
 template<typename T>
@@ -65,4 +78,26 @@ inline Edge<T>* Node<T>::edgeAtIndex(int index){
 	return edge;
 }
 
+template<typename T>
+inline void Node<T>::printValue()
+{
+	cout << val;
+}
 
+template <typename T>
+ostream& operator<<(ostream& os, Node<T>* node) {
+	os << node->getValue() << ": ";
+	for (int i = 0; i < node->amountOfEdges(); i++) {
+		Edge<T>* edge = node->edgeAtIndex(0);
+		Node<T>* otherNode = edge->getOtherNode(node);
+		os << otherNode->getValue() << " ";
+	}
+	return os << endl;
+}
+
+
+
+
+
+
+#endif
