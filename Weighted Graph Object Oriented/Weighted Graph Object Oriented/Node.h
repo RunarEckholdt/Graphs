@@ -29,20 +29,21 @@ inline Node<T>::Node(T val):val(val)
 
 template<typename T>
 inline Node<T>::~Node(){
+	vector<Edge<T>*> remEdges;
 	for (Edge<T>* edge : edges) {
+		remEdges.push_back(edge);
+	}
+	for (Edge<T>* edge : remEdges) {
 		delete edge;
 	}
 }
 
 template<typename T>
-inline T Node<T>::getValue()
-{
-	return val;
-}
+inline T Node<T>::getValue(){return val;}
 
 template<typename T>
 inline bool Node<T>::inVector(Edge<T>* edge) {
-	for (int i = 0; i < edges.size(); i++) {
+	for (unsigned int i = 0; i < edges.size(); i++) {
 		if (edges[i] == edge)return true;
 	}
 	return false;
@@ -58,13 +59,15 @@ inline void Node<T>::addEdge(Edge<T>* edge) {
 
 template<typename T>
 inline void Node<T>::removeEdge(Edge<T>* edge){
-	for (int i = 0; i < edges.size(); i++) {
+	for (unsigned int i = 0; i < edges.size(); i++) {
 		if (edges[i] == edge) {
 			edges.erase(edges.begin() + i);
 			break;
 		}
 	}
 }
+
+
 
 template<typename T>
 inline int Node<T>::amountOfEdges(){
@@ -88,9 +91,9 @@ template <typename T>
 ostream& operator<<(ostream& os, Node<T>* node) {
 	os << node->getValue() << ": ";
 	for (int i = 0; i < node->amountOfEdges(); i++) {
-		Edge<T>* edge = node->edgeAtIndex(0);
+		Edge<T>* edge = node->edgeAtIndex(i);
 		Node<T>* otherNode = edge->getOtherNode(node);
-		os << otherNode->getValue() << " ";
+		os << otherNode->getValue() << " " << "cost: " << edge->getCost() << "| ";
 	}
 	return os << endl;
 }
